@@ -31,8 +31,8 @@ class Entity:
     def get_items(self):
         return self.items
 
-    #def __str__(self):
-    #    return '{} has {} health, its position is {}, and owns {}.'.format(self.name, self.health, self.get_position(), self.items)
+    # def __str__(self):
+    #     return '{} has {} health, its position is {}, and owns {}.'.format(self.name, self.health, self.get_position(), self.items)
 
     def __str__(self):
         return f'{self.name} has {self.health} health, its position is {self.get_position()}, and owns {self.items}.'
@@ -62,16 +62,18 @@ if game_new or game_restart:
 
     print('------quitting and saving game------')
     # quitting the game, serialising the player and the enemy data
-    with open('save_game.pkl', 'wb') as game_state_file:
-        pickle.dump(player, game_state_file)
-        pickle.dump(enemy, game_state_file)
+    with open('save_game.pkl', 'wb') as save_game:
+        pickle.dump(player, save_game)
+        pickle.dump(enemy, save_game)
 
 else:
     print('------loading game------')
-    with open('save_game.pkl', 'rb') as game_state_file:
-        player = pickle.load(game_state_file)
-        print(player)
+    try:
+        with open('save_game.pkl', 'rb') as load_game:
+            player = pickle.load(load_game)
+            print(player)
 
-        enemy = pickle.load(game_state_file)
-        print(enemy)
-
+            enemy = pickle.load(load_game)
+            print(enemy)
+    except:
+        print('No saved game data found!')
